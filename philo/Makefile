@@ -6,13 +6,13 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/23 11:58:11 by vde-albu          #+#    #+#              #
-#    Updated: 2025/06/23 12:10:27 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/06/23 13:47:15 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra -g -I $(IDIR)
 SDIR = src/
 IDIR = include/
 ODIR = obj/
