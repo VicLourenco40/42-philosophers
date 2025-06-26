@@ -6,13 +6,14 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 10:04:19 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/25 10:09:40 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:33:23 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <sys/time.h>
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -42,4 +43,12 @@ int	ft_atoi(const char *nptr)
 	while (*nptr >= '0' && *nptr <= '9')
 		num = num * 10 + *nptr++ - '0';
 	return (num * sign);
+}
+
+long	get_timestamp(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
