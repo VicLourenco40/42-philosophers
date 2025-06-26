@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/26 14:27:22 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:37:05 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+void	*philosopher(void *arg)
+{
+	t_philo *const	philo = arg;
+
+	return (NULL);
+}
 
 void	init_params(t_params *const params, const int num_args,
 	char *const *const args)
@@ -49,9 +56,12 @@ int	init_state(t_state *const state, const int num_args,
 		state->philos[i].forks[1] = &state->forks[i + 1];
 		if (i + 1 == params->num_philos)
 			state->philos[i].forks[1] = state->forks;
+		state->philos[i].last_meal = get_timestamp();
 		state->philos[i].params = params;
 		pthread_mutex_init(&state->philos[i].mutex, NULL);
 		pthread_mutex_init(&state->forks[i].mutex, NULL);
+		pthread_create(&state->philos[i].thread, NULL,
+			philosopher, &state->philos[i]);
 	}
 	return (0);
 }
