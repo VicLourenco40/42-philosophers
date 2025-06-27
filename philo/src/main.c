@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/27 12:42:16 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:59:27 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,25 @@ void	*philosopher(void *arg)
 void	manager(t_params *const params, t_philo *const philos)
 {
 	int	i;
+	int	t;
+	int	start;
 
 	i = -1;
 	while (++i < params->num_philos)
 		pthread_create(&philos[i].thread, NULL, philosopher, &philos[i]);
 
-	pthread_mutex_lock(&philos[0].forks[0]->mutex);
-	pthread_mutex_lock(&philos[0].forks[1]->mutex);
-	philos[0].forks[0]->user = 1;
-	philos[0].forks[1]->user = 1;
-	pthread_mutex_unlock(&philos[0].forks[1]->mutex);
-	pthread_mutex_unlock(&philos[0].forks[0]->mutex);
+	start = 0;
+	i = -1;
+	while (++i < params->num_philos / 2)
+	{
+		t = (start + i * 2) % params->num_philos;
+		pthread_mutex_lock(&philos[t].forks[0]->mutex);
+		pthread_mutex_lock(&philos[t].forks[1]->mutex);
+		philos[t].forks[0]->user = t + 1;
+		philos[t].forks[1]->user = t + 1;
+		pthread_mutex_unlock(&philos[t].forks[1]->mutex);
+		pthread_mutex_unlock(&philos[t].forks[0]->mutex);
+	}
 
 	i = -1;
 	while (++i < params->num_philos)
