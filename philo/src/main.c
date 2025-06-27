@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/27 19:02:34 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:09:26 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ void	*philosopher(void *arg)
 		pthread_mutex_unlock(&philo->forks[1]->mutex);
 		pthread_mutex_unlock(&philo->forks[0]->mutex);
 		pthread_mutex_unlock(&philo->mutex);
+		pthread_mutex_lock(&philo->params->mutex);
+		if (philo->params->stop)
+			return (pthread_mutex_unlock(&philo->params->mutex), NULL);
+		pthread_mutex_unlock(&philo->params->mutex);
 		printf("%lu %d is sleeping\n", get_timestamp(), philo->index + 1);
 		usleep(philo->params->time_to_sleep * 1000);
 	}
