@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/27 12:59:27 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:02:34 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,18 @@ void	*philosopher(void *arg)
 
 	while (1)
 	{
-		printf("%lu %d is thinking\n", get_timestamp(), philo->index);
+		pthread_mutex_lock(&philo->params->mutex);
+		if (philo->params->stop)
+			return (pthread_mutex_unlock(&philo->params->mutex), NULL);
+		pthread_mutex_unlock(&philo->params->mutex);
+		printf("%lu %d is thinking\n", get_timestamp(), philo->index + 1);
 		eating = 0;
 		while (!eating)
 		{
+			pthread_mutex_lock(&philo->params->mutex);
+			if (philo->params->stop)
+				return (pthread_mutex_unlock(&philo->params->mutex), NULL);
+			pthread_mutex_unlock(&philo->params->mutex);
 			pthread_mutex_lock(&philo->forks[0]->mutex);
 			pthread_mutex_lock(&philo->forks[1]->mutex);
 			eating = philo->forks[0]->user == philo->index && \
@@ -33,50 +41,22 @@ void	*philosopher(void *arg)
 			pthread_mutex_unlock(&philo->forks[1]->mutex);
 			pthread_mutex_unlock(&philo->forks[0]->mutex);
 		}
-		printf("%lu %d is eating\n", get_timestamp(), philo->index);
+		printf("%lu %d is eating\n", get_timestamp(), philo->index + 1);
 		usleep(philo->params->time_to_eat * 1000);
 		pthread_mutex_lock(&philo->mutex);
 		pthread_mutex_lock(&philo->forks[0]->mutex);
 		pthread_mutex_lock(&philo->forks[1]->mutex);
 		philo->num_meals++;
 		philo->last_meal = get_timestamp();
-		philo->forks[0]->user = 0;
-		philo->forks[1]->user = 0;
+		philo->forks[0]->user = -1;
+		philo->forks[1]->user = -1;
 		pthread_mutex_unlock(&philo->forks[1]->mutex);
 		pthread_mutex_unlock(&philo->forks[0]->mutex);
 		pthread_mutex_unlock(&philo->mutex);
-		printf("%lu %d is sleeping\n", get_timestamp(), philo->index);
+		printf("%lu %d is sleeping\n", get_timestamp(), philo->index + 1);
 		usleep(philo->params->time_to_sleep * 1000);
 	}
 	return (NULL);
-}
-
-void	manager(t_params *const params, t_philo *const philos)
-{
-	int	i;
-	int	t;
-	int	start;
-
-	i = -1;
-	while (++i < params->num_philos)
-		pthread_create(&philos[i].thread, NULL, philosopher, &philos[i]);
-
-	start = 0;
-	i = -1;
-	while (++i < params->num_philos / 2)
-	{
-		t = (start + i * 2) % params->num_philos;
-		pthread_mutex_lock(&philos[t].forks[0]->mutex);
-		pthread_mutex_lock(&philos[t].forks[1]->mutex);
-		philos[t].forks[0]->user = t + 1;
-		philos[t].forks[1]->user = t + 1;
-		pthread_mutex_unlock(&philos[t].forks[1]->mutex);
-		pthread_mutex_unlock(&philos[t].forks[0]->mutex);
-	}
-
-	i = -1;
-	while (++i < params->num_philos)
-		pthread_join(philos[i].thread, NULL);
 }
 
 void	init_params(t_params *const params, const int num_args,
@@ -107,11 +87,12 @@ int	init(t_params *const params, t_philo **const philos, const int num_args, \
 	i = -1;
 	while (++i < params->num_philos)
 	{
-		(*philos)[i].index = i + 1;
+		(*philos)[i].index = i;
 		(*philos)[i].forks[i % 2] = &forks[i];
 		(*philos)[i].forks[(i + 1) % 2] = &forks[(i + 1) % params->num_philos];
 		(*philos)[i].last_meal = get_timestamp();
 		(*philos)[i].params = params;
+		forks[i].user = -1;
 		pthread_mutex_init(&(*philos)[i].mutex, NULL);
 		pthread_mutex_init(&forks[i].mutex, NULL);
 	}
