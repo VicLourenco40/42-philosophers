@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:00:45 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/26 17:04:30 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:38:49 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
 	t_fork			*forks[2];
 	int				num_meals;
 	long			last_meal;
+	pthread_mutex_t	mutex;
 	pthread_t		thread;
 	t_params		*params;
 }	t_philo;
