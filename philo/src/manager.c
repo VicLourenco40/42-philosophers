@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:34:52 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/27 19:21:03 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:24:38 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static void	give_forks(t_params *const params, t_philo *const philos,
 	while (++i < params->num_philos / 2)
 	{
 		t = (first + i * 2) % params->num_philos;
-		printf("%lu %d has taken a fork\n", get_timestamp(), t + 1);
-		printf("%lu %d has taken a fork\n", get_timestamp(), t + 1);
 		pthread_mutex_lock(&philos[t].forks[0]->mutex);
 		pthread_mutex_lock(&philos[t].forks[1]->mutex);
 		philos[t].forks[0]->user = t;

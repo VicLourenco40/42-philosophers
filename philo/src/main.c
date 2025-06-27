@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/27 19:09:26 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:29:38 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	*philosopher(void *arg)
 			pthread_mutex_unlock(&philo->forks[1]->mutex);
 			pthread_mutex_unlock(&philo->forks[0]->mutex);
 		}
+		printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
+		printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 		printf("%lu %d is eating\n", get_timestamp(), philo->index + 1);
 		usleep(philo->params->time_to_eat * 1000);
 		pthread_mutex_lock(&philo->mutex);
