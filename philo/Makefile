@@ -6,7 +6,7 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/23 11:58:11 by vde-albu          #+#    #+#              #
-#    Updated: 2025/06/27 19:21:57 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/06/30 11:16:17 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -g -pthread -fsanitize=thread -I $(IDIR)
 SDIR = src/
 IDIR = include/
 ODIR = obj/
-OBJ = main.o utils.o manager.o
+OBJ = main.o utils.o manager.o philosopher.o
 OBJS = $(patsubst %, $(ODIR)%, $(OBJ))
 
 .PHONY: all clean fclean re

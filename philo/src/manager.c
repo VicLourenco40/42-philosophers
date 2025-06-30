@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:34:52 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/27 19:24:38 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:14:23 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,24 +101,17 @@ static int	check_min_meals(t_params *const params, t_philo *const philos)
 
 void	manager(t_params *const params, t_philo *const philos)
 {
-	int	i;
 	int	first;
 
-	i = -1;
-	while (++i < params->num_philos)
-		pthread_create(&philos[i].thread, NULL, philosopher, &philos[i]);
 	first = 0;
 	while (1)
 	{
 		give_forks(params, philos, first);
 		while (check_eating(params, philos, first))
 			if (check_dead(params, philos))
-				break ;
+				return ;
 		if (params->stop || check_min_meals(params, philos))
-			break ;
+			return ;
 		first = (first + 1) % params->num_philos;
 	}
-	i = -1;
-	while (++i < params->num_philos)
-		pthread_join(philos[i].thread, NULL);
 }
