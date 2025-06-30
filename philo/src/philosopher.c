@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:40:11 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/30 12:10:31 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:39:29 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ static int	check_can_eat(t_philo *const philo)
 static void	eat(t_philo *const philo)
 {
 	pthread_mutex_lock(&philo->mutex);
+	if (check_stop(philo->params))
+	{
+		pthread_mutex_unlock(&philo->mutex);
+		return ;
+	}
 	printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 	printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 	printf("%lu %d is eating\n", get_timestamp(), philo->index + 1);
