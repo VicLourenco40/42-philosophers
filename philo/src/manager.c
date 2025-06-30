@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:34:52 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/30 11:14:23 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:32:32 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static int	check_eating(t_params *const params, t_philo *const philos,
 	int	t;
 	int	eating;
 
+	if (params->num_philos == 1)
+		return (1);
 	i = -1;
 	while (++i < params->num_philos / 2)
 	{
@@ -110,7 +112,7 @@ void	manager(t_params *const params, t_philo *const philos)
 		while (check_eating(params, philos, first))
 			if (check_dead(params, philos))
 				return ;
-		if (params->stop || check_min_meals(params, philos))
+		if (check_min_meals(params, philos))
 			return ;
 		first = (first + 1) % params->num_philos;
 	}

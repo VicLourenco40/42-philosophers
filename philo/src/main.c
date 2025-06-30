@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/30 11:17:56 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:22:32 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	init(t_params *const params, t_philo **const philos, const int num_args, \
 	int		i;
 
 	init_params(params, num_args, args);
+	if (!params->num_philos)
+		return (1);
 	*philos = ft_calloc(params->num_philos, sizeof(t_philo) + sizeof(t_fork));
 	if (!*philos)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:40:11 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/30 11:17:46 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:10:31 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	check_can_eat(t_philo *const philo)
 {
 	int	can_eat;
 
+	if (philo->params->num_philos == 1)
+		return (0);
 	pthread_mutex_lock(&philo->forks[0]->mutex);
 	pthread_mutex_lock(&philo->forks[1]->mutex);
 	can_eat = philo->forks[0]->user == philo->index && \
@@ -39,21 +41,20 @@ static int	check_can_eat(t_philo *const philo)
 
 static void	eat(t_philo *const philo)
 {
+	pthread_mutex_lock(&philo->mutex);
 	printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 	printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 	printf("%lu %d is eating\n", get_timestamp(), philo->index + 1);
-	usleep(philo->params->time_to_eat * 1000);
-	pthread_mutex_lock(&philo->mutex);
-	pthread_mutex_lock(&philo->forks[0]->mutex);
-	pthread_mutex_lock(&philo->forks[1]->mutex);
 	philo->num_meals++;
 	philo->last_meal = get_timestamp();
+	pthread_mutex_unlock(&philo->mutex);
+	usleep(philo->params->time_to_eat * 1000);
+	pthread_mutex_lock(&philo->forks[0]->mutex);
+	pthread_mutex_lock(&philo->forks[1]->mutex);
 	philo->forks[0]->user = -1;
 	philo->forks[1]->user = -1;
 	pthread_mutex_unlock(&philo->forks[1]->mutex);
 	pthread_mutex_unlock(&philo->forks[0]->mutex);
-	pthread_mutex_unlock(&philo->mutex);
-	pthread_mutex_lock(&philo->params->mutex);
 }
 
 void	*philosopher(void *arg)
