@@ -6,13 +6,12 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/30 15:58:14 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:32:21 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 int	init_params(t_params *const params, const int num_args,
 	char *const *const args)
