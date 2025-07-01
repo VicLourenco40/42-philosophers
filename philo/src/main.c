@@ -6,14 +6,14 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/30 16:32:21 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:47:53 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 #include <stdlib.h>
 
-int	init_params(t_params *const params, const int num_args,
+static int	init_params(t_params *const params, const int num_args,
 	char *const *const args)
 {
 	params->num_philos = ft_atoi(args[1]);
@@ -35,8 +35,8 @@ int	init_params(t_params *const params, const int num_args,
 	return (0);
 }
 
-int	init(t_params *const params, t_philo **const philos, const int num_args, \
-	char *const *const args)
+static int	init(t_params *const params, t_philo **const philos, \
+	const int num_args, char *const *const args)
 {
 	t_fork	*forks;
 	int		i;
