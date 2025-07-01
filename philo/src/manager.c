@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:34:52 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/30 12:32:32 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:25:20 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,16 @@ static int	check_dead(t_params *const params, t_philo *const philos)
 	{
 		pthread_mutex_lock(&philos[i].mutex);
 		dead = get_timestamp() - philos[i].last_meal >= params->time_to_die;
-		pthread_mutex_unlock(&philos[i].mutex);
 		if (dead)
 		{
 			printf("%lu %d died\n", get_timestamp(), i + 1);
 			pthread_mutex_lock(&params->mutex);
 			params->stop = 1;
 			pthread_mutex_unlock(&params->mutex);
-			return (1);
 		}
+		pthread_mutex_unlock(&philos[i].mutex);
+		if (dead)
+			return (1);
 	}
 	return (0);
 }

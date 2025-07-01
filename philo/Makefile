@@ -6,13 +6,13 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/23 11:58:11 by vde-albu          #+#    #+#              #
-#    Updated: 2025/06/30 11:16:17 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/07/01 12:17:16 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -g -pthread -fsanitize=thread -I $(IDIR)
+CFLAGS = -Wall -Wextra -g -pthread -I $(IDIR)
 SDIR = src/
 IDIR = include/
 ODIR = obj/
