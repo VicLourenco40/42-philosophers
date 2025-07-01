@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:40:11 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/06/30 14:39:29 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:48:20 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,18 @@ static void	eat(t_philo *const philo)
 	printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 	printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 	printf("%lu %d is eating\n", get_timestamp(), philo->index + 1);
-	philo->num_meals++;
 	philo->last_meal = get_timestamp();
 	pthread_mutex_unlock(&philo->mutex);
 	usleep(philo->params->time_to_eat * 1000);
+	pthread_mutex_lock(&philo->mutex);
 	pthread_mutex_lock(&philo->forks[0]->mutex);
 	pthread_mutex_lock(&philo->forks[1]->mutex);
+	philo->num_meals++;
 	philo->forks[0]->user = -1;
 	philo->forks[1]->user = -1;
 	pthread_mutex_unlock(&philo->forks[1]->mutex);
 	pthread_mutex_unlock(&philo->forks[0]->mutex);
+	pthread_mutex_unlock(&philo->mutex);
 }
 
 void	*philosopher(void *arg)
