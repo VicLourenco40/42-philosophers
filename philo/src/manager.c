@@ -6,12 +6,13 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:34:52 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/01 12:25:20 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:45:58 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 #include <stdio.h>
+#include <unistd.h>
 
 static void	give_forks(t_params *const params, t_philo *const philos,
 	const int first)
@@ -68,7 +69,9 @@ static int	check_dead(t_params *const params, t_philo *const philos)
 		dead = get_timestamp() - philos[i].last_meal >= params->time_to_die;
 		if (dead)
 		{
+			pthread_mutex_lock(&params->print_mutex);
 			printf("%lu %d died\n", get_timestamp(), i + 1);
+			pthread_mutex_unlock(&params->print_mutex);
 			pthread_mutex_lock(&params->mutex);
 			params->stop = 1;
 			pthread_mutex_unlock(&params->mutex);
@@ -102,17 +105,41 @@ static int	check_min_meals(t_params *const params, t_philo *const philos)
 	return (1);
 }
 
+void	manager_sync(t_params *const params)
+{
+	int	philos_ready;
+
+	while (1)
+	{
+		pthread_mutex_lock(&params->mutex);
+		philos_ready = params->philos_ready == params->num_philos;
+		pthread_mutex_unlock(&params->mutex);
+		if (philos_ready)
+		{
+			pthread_mutex_lock(&params->mutex);
+			params->manager_ready = 1;
+			pthread_mutex_unlock(&params->mutex);
+			return ;
+		}
+		usleep(100);
+	}
+}
+
 void	manager(t_params *const params, t_philo *const philos)
 {
 	int	first;
 
+	manager_sync(params);
 	first = 0;
 	while (1)
 	{
 		give_forks(params, philos, first);
 		while (check_eating(params, philos, first))
+		{
 			if (check_dead(params, philos))
 				return ;
+			usleep(100);
+		}
 		if (check_min_meals(params, philos))
 			return ;
 		first = (first + 1) % params->num_philos;

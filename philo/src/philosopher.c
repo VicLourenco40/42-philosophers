@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:40:11 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/02 10:33:17 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:49:13 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ static void	eat(t_philo *const philo)
 		pthread_mutex_unlock(&philo->mutex);
 		return ;
 	}
+	philo->last_meal = get_timestamp();
+	pthread_mutex_unlock(&philo->mutex);
+	pthread_mutex_lock(&philo->params->print_mutex);
 	printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 	printf("%lu %d has taken a fork\n", get_timestamp(), philo->index + 1);
 	printf("%lu %d is eating\n", get_timestamp(), philo->index + 1);
-	philo->last_meal = get_timestamp();
-	pthread_mutex_unlock(&philo->mutex);
+	pthread_mutex_unlock(&philo->params->print_mutex);
 	usleep(philo->params->time_to_eat * 1000);
 	pthread_mutex_lock(&philo->mutex);
 	pthread_mutex_lock(&philo->forks[0]->mutex);
@@ -64,15 +66,39 @@ static void	eat(t_philo *const philo)
 	pthread_mutex_unlock(&philo->mutex);
 }
 
+static void	philo_sync(t_params *const params)
+{
+	int	manager_ready;
+
+	pthread_mutex_lock(&params->mutex);
+	params->philos_ready++;
+	pthread_mutex_unlock(&params->mutex);
+	while (1)
+	{
+		pthread_mutex_lock(&params->mutex);
+		manager_ready = params->manager_ready;
+		pthread_mutex_unlock(&params->mutex);
+		if (manager_ready)
+			return ;
+		usleep(100);
+	}
+}
+
 void	*philosopher(void *arg)
 {
 	t_philo *const	philo = arg;
 
+	philo_sync(philo->params);
+	pthread_mutex_lock(&philo->mutex);
+	philo->last_meal = get_timestamp();
+	pthread_mutex_unlock(&philo->mutex);
 	while (1)
 	{
 		if (check_stop(philo->params))
 			return (NULL);
+		pthread_mutex_lock(&philo->params->print_mutex);
 		printf("%lu %d is thinking\n", get_timestamp(), philo->index + 1);
+		pthread_mutex_unlock(&philo->params->print_mutex);
 		while (!check_can_eat(philo))
 		{
 			if (check_stop(philo->params))
@@ -82,7 +108,9 @@ void	*philosopher(void *arg)
 		eat(philo);
 		if (check_stop(philo->params))
 			return (NULL);
+		pthread_mutex_lock(&philo->params->print_mutex);
 		printf("%lu %d is sleeping\n", get_timestamp(), philo->index + 1);
+		pthread_mutex_unlock(&philo->params->print_mutex);
 		usleep(philo->params->time_to_sleep * 1000);
 	}
 	return (NULL);

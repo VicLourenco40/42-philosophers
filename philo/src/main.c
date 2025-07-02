@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/01 10:47:53 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:40:55 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ static int	init_params(t_params *const params, const int num_args,
 		ft_putstr_fd("philo: Invalid parameters\n", 2);
 		return (1);
 	}
+	params->philos_ready = 0;
+	params->manager_ready = 0;
 	params->stop = 0;
 	pthread_mutex_init(&params->mutex, NULL);
+	pthread_mutex_init(&params->print_mutex, NULL);
 	return (0);
 }
 
