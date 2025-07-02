@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:00:45 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/02 12:38:12 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:59:31 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_philo
 
 void	manager(t_params *const params, t_philo *const philos);
 void	*philosopher(void *arg);
+void	manager_sync(t_params *const params);
+void	philosopher_sync(t_params *const params);
 long	get_timestamp(void);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_atoi(const char *nptr);

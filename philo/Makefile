@@ -6,7 +6,7 @@
 #    By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/23 11:58:11 by vde-albu          #+#    #+#              #
-#    Updated: 2025/07/01 12:17:16 by vde-albu         ###   ########.fr        #
+#    Updated: 2025/07/02 16:00:11 by vde-albu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -g -pthread -I $(IDIR)
 SDIR = src/
 IDIR = include/
 ODIR = obj/
-OBJ = main.o utils.o manager.o philosopher.o
+OBJ = main.o utils.o manager.o philosopher.o sync.o
 OBJS = $(patsubst %, $(ODIR)%, $(OBJ))
 
 .PHONY: all clean fclean re

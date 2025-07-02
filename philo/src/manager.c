@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:34:52 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/02 12:45:58 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:57:50 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,26 +103,6 @@ static int	check_min_meals(t_params *const params, t_philo *const philos)
 	params->stop = 1;
 	pthread_mutex_unlock(&params->mutex);
 	return (1);
-}
-
-void	manager_sync(t_params *const params)
-{
-	int	philos_ready;
-
-	while (1)
-	{
-		pthread_mutex_lock(&params->mutex);
-		philos_ready = params->philos_ready == params->num_philos;
-		pthread_mutex_unlock(&params->mutex);
-		if (philos_ready)
-		{
-			pthread_mutex_lock(&params->mutex);
-			params->manager_ready = 1;
-			pthread_mutex_unlock(&params->mutex);
-			return ;
-		}
-		usleep(100);
-	}
 }
 
 void	manager(t_params *const params, t_philo *const philos)
