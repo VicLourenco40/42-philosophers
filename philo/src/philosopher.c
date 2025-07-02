@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:40:11 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/01 12:48:20 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:33:17 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,11 @@ void	*philosopher(void *arg)
 			return (NULL);
 		printf("%lu %d is thinking\n", get_timestamp(), philo->index + 1);
 		while (!check_can_eat(philo))
+		{
 			if (check_stop(philo->params))
 				return (NULL);
+			usleep(100);
+		}
 		eat(philo);
 		if (check_stop(philo->params))
 			return (NULL);
