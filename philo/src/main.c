@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/02 12:40:55 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:08:02 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int	init_params(t_params *const params, const int num_args,
 		return (1);
 	}
 	params->philos_ready = 0;
-	params->manager_ready = 0;
 	params->stop = 0;
 	pthread_mutex_init(&params->mutex, NULL);
 	pthread_mutex_init(&params->print_mutex, NULL);
@@ -59,7 +58,6 @@ static int	init(t_params *const params, t_philo **const philos, \
 		(*philos)[i].index = i;
 		(*philos)[i].forks[i % 2] = &forks[i];
 		(*philos)[i].forks[(i + 1) % 2] = &forks[(i + 1) % params->num_philos];
-		(*philos)[i].last_meal = get_timestamp();
 		(*philos)[i].params = params;
 		forks[i].user = -1;
 		pthread_mutex_init(&(*philos)[i].mutex, NULL);

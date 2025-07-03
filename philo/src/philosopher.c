@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:40:11 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/03 15:19:19 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:48:09 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	*philosopher(void *arg)
 {
 	t_philo *const	philo = arg;
 
-	philosopher_sync(philo);
+	philosopher_sync(philo->params);
 	while (1)
 	{
 		if (check_stop(philo->params))
@@ -82,7 +82,7 @@ void	*philosopher(void *arg)
 		{
 			if (check_stop(philo->params))
 				return (NULL);
-			usleep(100);
+			usleep(1);
 		}
 		eat(philo);
 		if (check_stop(philo->params))

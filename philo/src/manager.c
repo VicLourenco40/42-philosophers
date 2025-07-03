@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:34:52 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/02 15:57:50 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:03:04 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	manager(t_params *const params, t_philo *const philos)
 {
 	int	first;
 
-	manager_sync(params);
+	manager_sync(params, philos);
 	first = 0;
 	while (1)
 	{
@@ -118,7 +118,7 @@ void	manager(t_params *const params, t_philo *const philos)
 		{
 			if (check_dead(params, philos))
 				return ;
-			usleep(100);
+			usleep(1);
 		}
 		if (check_min_meals(params, philos))
 			return ;

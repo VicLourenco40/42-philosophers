@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:00:45 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/03 15:19:54 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:30:10 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_params
 	int				time_to_sleep;
 	int				min_meals;
 	int				philos_ready;
-	int				manager_ready;
 	int				stop;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	print_mutex;
@@ -49,8 +48,8 @@ typedef struct s_philo
 
 void	manager(t_params *const params, t_philo *const philos);
 void	*philosopher(void *arg);
-void	manager_sync(t_params *const params);
-void	philosopher_sync(t_philo *const philo);
+void	manager_sync(t_params *const params, t_philo *const philos);
+void	philosopher_sync(t_params *const params);
 long	get_timestamp(void);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_atoi(const char *nptr);
