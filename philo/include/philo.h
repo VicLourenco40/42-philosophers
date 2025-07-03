@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:00:45 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/03 17:30:10 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:19:28 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_params
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				min_meals;
+	int				manager_ready;
 	int				philos_ready;
 	int				stop;
 	pthread_mutex_t	mutex;

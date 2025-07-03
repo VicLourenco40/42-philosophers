@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:57:17 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/03 17:30:07 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:21:36 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,25 @@ void	manager_sync(t_params *const params, t_philo *const philos)
 	i = -1;
 	while (++i < params->num_philos)
 		philos[i].last_meal = timestamp;
+	pthread_mutex_lock(&params->mutex);
+	params->manager_ready = 1;
+	pthread_mutex_unlock(&params->mutex);
 }
 
 void	philosopher_sync(t_params *const params)
 {
+	int	manager_ready;
+
 	pthread_mutex_lock(&params->mutex);
 	params->philos_ready++;
 	pthread_mutex_unlock(&params->mutex);
+	while (1)
+	{
+		pthread_mutex_lock(&params->mutex);
+		manager_ready = params->manager_ready;
+		pthread_mutex_unlock(&params->mutex);
+		if (manager_ready)
+			return ;
+		usleep(1);
+	}
 }
