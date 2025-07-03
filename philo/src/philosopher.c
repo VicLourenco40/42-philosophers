@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:40:11 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/02 15:59:59 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:19:19 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ void	*philosopher(void *arg)
 {
 	t_philo *const	philo = arg;
 
-	philosopher_sync(philo->params);
-	pthread_mutex_lock(&philo->mutex);
-	philo->last_meal = get_timestamp();
-	pthread_mutex_unlock(&philo->mutex);
+	philosopher_sync(philo);
 	while (1)
 	{
 		if (check_stop(philo->params))

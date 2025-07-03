@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:57:17 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/02 16:00:29 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:19:03 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ void	manager_sync(t_params *const params)
 	}
 }
 
-void	philosopher_sync(t_params *const params)
+void	philosopher_sync(t_philo *const philo)
 {
-	int	manager_ready;
+	t_params *const	params = philo->params;
+	int				manager_ready;
 
 	pthread_mutex_lock(&params->mutex);
 	params->philos_ready++;
@@ -46,7 +47,12 @@ void	philosopher_sync(t_params *const params)
 		manager_ready = params->manager_ready;
 		pthread_mutex_unlock(&params->mutex);
 		if (manager_ready)
+		{
+			pthread_mutex_lock(&philo->mutex);
+			philo->last_meal = get_timestamp();
+			pthread_mutex_unlock(&philo->mutex);
 			return ;
+		}
 		usleep(100);
 	}
 }
