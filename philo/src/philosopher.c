@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:40:11 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/07 11:19:32 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:49:09 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	check_can_eat(t_philo *const philo, t_params *const params)
 		return (0);
 	pthread_mutex_lock(&philo->forks[0]->mutex);
 	pthread_mutex_lock(&philo->forks[1]->mutex);
-	can_eat = philo->forks[0]->user == philo->index && \
-		philo->forks[1]->user == philo->index;
+	can_eat = philo->forks[0]->user == philo->index
+		&& philo->forks[1]->user == philo->index;
 	pthread_mutex_unlock(&philo->forks[1]->mutex);
 	pthread_mutex_unlock(&philo->forks[0]->mutex);
 	return (can_eat);

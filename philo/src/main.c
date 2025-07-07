@@ -6,7 +6,7 @@
 /*   By: vde-albu <vde-albu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:01:14 by vde-albu          #+#    #+#             */
-/*   Updated: 2025/07/07 10:19:11 by vde-albu         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:50:26 by vde-albu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	init_params(t_params *const params, const int num_args,
 	params->min_meals = 0;
 	if (num_args == 6)
 		params->min_meals = ft_atoi(args[5]);
-	if (params->num_philos <= 0 || params->time_to_die < 0 || \
-		params->time_to_eat < 0 || params->time_to_sleep < 0 || \
-		params->min_meals < 0)
+	if (params->num_philos <= 0 || params->time_to_die < 0
+		|| params->time_to_eat < 0 || params->time_to_sleep < 0
+		|| params->min_meals < 0)
 	{
 		ft_putstr_fd("philo: Invalid parameters\n", 2);
 		return (1);
@@ -38,7 +38,7 @@ static int	init_params(t_params *const params, const int num_args,
 	return (0);
 }
 
-static int	init(t_params *const params, t_philo **const philos, \
+static int	init(t_params *const params, t_philo **const philos,
 	const int num_args, char *const *const args)
 {
 	t_fork	*forks;
